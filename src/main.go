@@ -2,8 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/joho/godotenv"
 	"os"
+
+	"github.com/dghubble/go-twitter/twitter"
+	"github.com/joho/godotenv"
+	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/clientcredentials"
 )
 
 func main() {
@@ -20,5 +24,27 @@ func main() {
 		fmt.Println("TWITTER_SECRET_KEY must be set")
 	}
 
-	fmt.Println(consumerAPIKey, consumerAPISecretKey)
+	config := &clientcredentials.Config{
+		ClientID:     consumerAPIKey,
+		ClientSecret: consumerAPISecretKey,
+		TokenURL:     "https://api.twitter.com/oauth2/token",
+	}
+
+	httpClient := config.Client(oauth2.NoContext)
+
+	client := twitter.NewClient(httpClient)
+
+	shouldIncludeRetweets := false
+
+	tweets, _, err := client.Timelines.UserTimeline(&twitter.UserTimelineParams{
+		IncludeRetweets: &shouldIncludeRetweets,
+		ScreenName:      "harri_etty",
+		Count:           500,
+	})
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(tweets[len(tweets)-1])
 }
