@@ -1,0 +1,16 @@
+language: go
+go:
+  - 1.13.x
+go_import_path: github.com/harrietty/list-tweets
+branches:
+  only:
+    - master
+install: "./install-dependencies.sh"
+build:
+  - make build
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script: make deployprod
+    on:
+      branch: master

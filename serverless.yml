@@ -1,0 +1,28 @@
+provider:
+  name: aws
+  runtime: go1.x
+  region: eu-west-1
+  stage: dev
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
+
+  package:
+  exclude:
+    - ./**
+  include:
+    - ./bin/**
+
+functions:
+  tweets:
+    handler: bin/tweets
+    environment:
+      STAGE: ${self:custom.stage}
+    environment:
+      TWITTER_API_KEY: ${env:TWITTER_API_KEY}
+      TWITTER_SECRET_KEY: ${env:TWITTER_SECRET_KEY}
+    events:
+      - http:
+          path: /tweets
+          method: get
+          cors: true

@@ -6,7 +6,7 @@ import (
 )
 
 // Tweets fetches all a user's tweets between two given date strings
-func Tweets(client *twitter.Client, username string, startDate string, endDate string) []twitter.Tweet {
+func Tweets(client *twitter.Client, username string, dateSince string, dateBefore string) []twitter.Tweet {
 	var finalID int64
 	tw := []twitter.Tweet{}
 	shouldIncludeRetweets := false
