@@ -18,7 +18,6 @@ functions:
     handler: bin/tweets
     environment:
       STAGE: ${self:custom.stage}
-    environment:
       TWITTER_API_KEY: ${env:TWITTER_API_KEY}
       TWITTER_SECRET_KEY: ${env:TWITTER_SECRET_KEY}
     events:
