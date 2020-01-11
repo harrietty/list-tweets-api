@@ -6,7 +6,7 @@ clean:
 	rm -rf ./bin ./vendor Gopkg.lock
 
 deploy:
-	sls deploy --verbose
+	sls deploy --verbose --TWITTER_API_KEY=${TWITTER_API_KEY} --TWITTER_SECRET_KEY=${TWITTER_SECRET_KEY}
 
 deployprod:
 	sls deploy --verbose --stage prod

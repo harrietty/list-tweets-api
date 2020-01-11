@@ -5,6 +5,18 @@ provider:
   runtime: go1.x
   region: eu-west-1
   stage: dev
+  apiKeys:
+    - free:
+        - harrietryderblog
+  usagePlan:
+    - free:
+        quota:
+          limit: 5000
+          offset: 2
+          period: MONTH
+        throttle:
+          burstLimit: 200
+          rateLimit: 100
 
 custom:
   stage: ${opt:stage, self:provider.stage}
@@ -27,3 +39,4 @@ functions:
           path: /tweets
           method: get
           cors: true
+          private: true

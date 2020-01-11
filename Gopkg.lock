@@ -2,6 +2,60 @@
 
 
 [[projects]]
+  digest = "1:c8bc6cc8a13405a9ebfdc76a4279d52ff3e13dd4f73766b7a1ff6b45aa609fc3"
+  name = "github.com/aws/aws-lambda-go"
+  packages = [
+    "events",
+    "lambda",
+    "lambda/handlertrace",
+    "lambda/messages",
+    "lambdacontext",
+  ]
+  pruneopts = "UT"
+  revision = "b5b7267d297de263cc5b61f8c37543daa9c95ffd"
+  version = "v1.13.3"
+
+[[projects]]
+  digest = "1:bc7e9c56408594a678dd165db7c579c2498a3c9eab9b308099820ddbfe85b720"
+  name = "github.com/cenkalti/backoff"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "a9a4cec6c9a26336ca42700ccc319ca842be56c0"
+  version = "v4.0.0"
+
+[[projects]]
+  branch = "master"
+  digest = "1:ccbd5b4079e67036e339297ce0beb95a3d57575e4ca065142fc1859a9b2859a8"
+  name = "github.com/dghubble/go-twitter"
+  packages = ["twitter"]
+  pruneopts = "UT"
+  revision = "39e5462e111ffe165c62a88e2c25e1c1d1085bdb"
+
+[[projects]]
+  digest = "1:3f7570ad151d00244d94ea2a4f884084984be7617a92089b1c35db9f5d65be89"
+  name = "github.com/dghubble/sling"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "5a2946623f885d0cfcd7085b039baec12ad53fdd"
+  version = "v1.3.0"
+
+[[projects]]
+  digest = "1:573ca21d3669500ff845bdebee890eb7fc7f0f50c59f2132f2a0c6b03d85086a"
+  name = "github.com/golang/protobuf"
+  packages = ["proto"]
+  pruneopts = "UT"
+  revision = "6c65a5562fc06764971b7c5d05c76c75e84bdbf7"
+  version = "v1.3.2"
+
+[[projects]]
+  digest = "1:a63cff6b5d8b95638bfe300385d93b2a6d9d687734b863da8e09dc834510a690"
+  name = "github.com/google/go-querystring"
+  packages = ["query"]
+  pruneopts = "UT"
+  revision = "44c6ddd0a2342c386950e880b658017258da92fc"
+  version = "v1.0.0"
+
+[[projects]]
   digest = "1:ecd9aa82687cf31d1585d4ac61d0ba180e42e8a6182b85bd785fcca8dfeefc1b"
   name = "github.com/joho/godotenv"
   packages = ["."]
@@ -9,9 +63,55 @@
   revision = "23d116af351c84513e1946b527c88823e476be13"
   version = "v1.3.0"
 
+[[projects]]
+  branch = "master"
+  digest = "1:f8b491a7c25030a895a0e579742d07136e6958e77ef2d46e769db8eec4e58fcd"
+  name = "golang.org/x/net"
+  packages = [
+    "context",
+    "context/ctxhttp",
+  ]
+  pruneopts = "UT"
+  revision = "c0dbc17a35534bf2e581d7a942408dc936316da4"
+
+[[projects]]
+  branch = "master"
+  digest = "1:f1d392a89dc9b0d4556b368faa99438ac2dd443fa4d8a6f1742acb3c41f78d1f"
+  name = "golang.org/x/oauth2"
+  packages = [
+    ".",
+    "clientcredentials",
+    "internal",
+  ]
+  pruneopts = "UT"
+  revision = "bf48bf16ab8d622ce64ec6ce98d2c98f916b6303"
+
+[[projects]]
+  digest = "1:e0a1881f9e0564bebdeac98c75e59f07acdde6ed3a5396e0e613eaad31194866"
+  name = "google.golang.org/appengine"
+  packages = [
+    "internal",
+    "internal/base",
+    "internal/datastore",
+    "internal/log",
+    "internal/remote_api",
+    "internal/urlfetch",
+    "urlfetch",
+  ]
+  pruneopts = "UT"
+  revision = "971852bfffca25b069c31162ae8f247a3dba083b"
+  version = "v1.6.5"
+
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  input-imports = ["github.com/joho/godotenv"]
+  input-imports = [
+    "github.com/aws/aws-lambda-go/events",
+    "github.com/aws/aws-lambda-go/lambda",
+    "github.com/dghubble/go-twitter/twitter",
+    "github.com/joho/godotenv",
+    "golang.org/x/oauth2",
+    "golang.org/x/oauth2/clientcredentials",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1
