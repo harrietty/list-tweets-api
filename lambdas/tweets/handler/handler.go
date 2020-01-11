@@ -64,5 +64,9 @@ func (h Handler) HandleRequest(request events.APIGatewayProxyRequest) (events.AP
 		fmt.Println("Cannot parse filtered tweets as JSON", err)
 		return events.APIGatewayProxyResponse{StatusCode: 500, Body: "Error parsing filtered tweets as JSON"}, nil
 	}
-	return events.APIGatewayProxyResponse{StatusCode: 200, Body: string(blob)}, nil
+
+	headers := make(map[string]string)
+	headers["Access-Control-Allow-Origin"] = "*"
+	headers["Access-Control-Allow-Credentials"] = "true"
+	return events.APIGatewayProxyResponse{StatusCode: 200, Body: string(blob), Headers: headers}, nil
 }
