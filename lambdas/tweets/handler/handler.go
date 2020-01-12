@@ -25,6 +25,13 @@ func New(stage string, client *twitter.Client) Handler {
 	}
 }
 
+func getCorsHeaders() map[string]string {
+	headers := make(map[string]string)
+	headers["Access-Control-Allow-Origin"] = "*"
+	headers["Access-Control-Allow-Credentials"] = "true"
+	return headers
+}
+
 // HandleRequest handles incoming API gateway requests
 func (h Handler) HandleRequest(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	username := request.QueryStringParameters["username"]
@@ -62,9 +69,9 @@ func (h Handler) HandleRequest(request events.APIGatewayProxyRequest) (events.AP
 	if err != nil {
 		matched, _ := regexp.MatchString("34", err.Error())
 		if matched {
-			return events.APIGatewayProxyResponse{StatusCode: 404, Body: "{\"message\": \"Username not found\"}"}, nil
+			return events.APIGatewayProxyResponse{StatusCode: 404, Body: "{\"message\": \"Username not found\"}", Headers: getCorsHeaders()}, nil
 		}
-		return events.APIGatewayProxyResponse{StatusCode: 500, Body: "{\"message\": \"Could not fetch Tweets\"}"}, nil
+		return events.APIGatewayProxyResponse{StatusCode: 500, Body: "{\"message\": \"Could not fetch Tweets\"}", Headers: getCorsHeaders()}, nil
 	}
 
 	// Filter the tweets by filterString
@@ -73,11 +80,8 @@ func (h Handler) HandleRequest(request events.APIGatewayProxyRequest) (events.AP
 	blob, err := json.Marshal(filtered)
 	if err != nil {
 		fmt.Println("Cannot parse filtered tweets as JSON", err)
-		return events.APIGatewayProxyResponse{StatusCode: 500, Body: "{\"message\": \"Error parsing filtered Tweets as JSON\"}"}, nil
+		return events.APIGatewayProxyResponse{StatusCode: 500, Body: "{\"message\": \"Error parsing filtered Tweets as JSON\"}", Headers: getCorsHeaders()}, nil
 	}
 
-	headers := make(map[string]string)
-	headers["Access-Control-Allow-Origin"] = "*"
-	headers["Access-Control-Allow-Credentials"] = "true"
-	return events.APIGatewayProxyResponse{StatusCode: 200, Body: string(blob), Headers: headers}, nil
+	return events.APIGatewayProxyResponse{StatusCode: 200, Body: string(blob), Headers: getCorsHeaders()}, nil
 }
