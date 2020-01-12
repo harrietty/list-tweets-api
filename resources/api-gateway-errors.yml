@@ -17,3 +17,23 @@ Resources:
       ResponseType: DEFAULT_5XX
       RestApiId:
         Ref: "ApiGatewayRestApi"
+  GatewayResponseBadRequestBody:
+    Type: 'AWS::ApiGateway::GatewayResponse'
+    Properties:
+      ResponseParameters:
+        gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+        gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+      ResponseType: BAD_REQUEST_BODY
+      RestApiId: 
+        Ref: "ApiGatewayRestApi"
+    
+  GatewayResponseBadRequestBody:
+    Type: 'AWS::ApiGateway::GatewayResponse'
+    Properties:
+      ResponseParameters:
+        gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+        gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+      ResponseType: RESOURCE_NOT_FOUND
+      RestApiId: 
+        Ref: "ApiGatewayRestApi"
+    
