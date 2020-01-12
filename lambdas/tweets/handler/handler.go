@@ -62,9 +62,9 @@ func (h Handler) HandleRequest(request events.APIGatewayProxyRequest) (events.AP
 	if err != nil {
 		matched, _ := regexp.MatchString("34", err.Error())
 		if matched {
-			return events.APIGatewayProxyResponse{StatusCode: 500, Body: "Username not found"}, nil
+			return events.APIGatewayProxyResponse{StatusCode: 500, Body: "{\"message\": \"Username not found\"}"}, nil
 		}
-		return events.APIGatewayProxyResponse{StatusCode: 500, Body: "Could not fetch Tweets"}, nil
+		return events.APIGatewayProxyResponse{StatusCode: 404, Body: "{\"message\": \"Could not fetch Tweets\"}"}, nil
 	}
 
 	// Filter the tweets by filterString
@@ -73,7 +73,7 @@ func (h Handler) HandleRequest(request events.APIGatewayProxyRequest) (events.AP
 	blob, err := json.Marshal(filtered)
 	if err != nil {
 		fmt.Println("Cannot parse filtered tweets as JSON", err)
-		return events.APIGatewayProxyResponse{StatusCode: 500, Body: "Error parsing filtered tweets as JSON"}, nil
+		return events.APIGatewayProxyResponse{StatusCode: 500, Body: "{\"message\": \"Error parsing filtered Tweets as JSON\"}"}, nil
 	}
 
 	headers := make(map[string]string)
