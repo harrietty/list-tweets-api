@@ -30,6 +30,12 @@ func Tweets(client *twitter.Client, username string, dateSince string, dateBefor
 		}
 		fmt.Printf("Found %v tweets. Still searching...\n", len(tw))
 		tw = append(tw, nextTweets...)
+
+		// If the user has no tweets, no point in continuing
+		if len(tw) == 0 {
+			return tw, nil
+		}
+
 		newFinalID := nextTweets[len(nextTweets)-1].ID
 		if newFinalID == finalID {
 			foundAll = true
