@@ -6,7 +6,7 @@ import (
 )
 
 // Tweets fetches all a user's tweets between two given date strings
-func Tweets(client *twitter.Client, username string, dateSince string, dateBefore string) []twitter.Tweet {
+func Tweets(client *twitter.Client, username string, dateSince string, dateBefore string) ([]twitter.Tweet, error) {
 	var finalID int64
 	tw := []twitter.Tweet{}
 	shouldIncludeRetweets := false
@@ -24,7 +24,10 @@ func Tweets(client *twitter.Client, username string, dateSince string, dateBefor
 		if finalID != 0 {
 			params.MaxID = finalID
 		}
-		nextTweets := fetchTweetBatch(*client, params)
+		nextTweets, err := fetchTweetBatch(*client, params)
+		if err != nil {
+			return nil, err
+		}
 		fmt.Printf("Found %v tweets. Still searching...\n", len(tw))
 		tw = append(tw, nextTweets...)
 		newFinalID := nextTweets[len(nextTweets)-1].ID
@@ -35,13 +38,14 @@ func Tweets(client *twitter.Client, username string, dateSince string, dateBefor
 		}
 	}
 
-	return tw
+	return tw, nil
 }
 
-func fetchTweetBatch(client twitter.Client, params twitter.UserTimelineParams) []twitter.Tweet {
+func fetchTweetBatch(client twitter.Client, params twitter.UserTimelineParams) ([]twitter.Tweet, error) {
 	tweets, _, err := client.Timelines.UserTimeline(&params)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("Error fetching tweets", err)
+		return tweets, err
 	}
-	return tweets
+	return tweets, nil
 }

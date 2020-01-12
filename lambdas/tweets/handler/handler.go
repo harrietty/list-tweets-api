@@ -7,6 +7,7 @@ import (
 	"github.com/dghubble/go-twitter/twitter"
 	"github.com/harrietty/list-tweets/fetch"
 	"github.com/harrietty/list-tweets/filter"
+	"regexp"
 	"time"
 )
 
@@ -55,7 +56,17 @@ func (h Handler) HandleRequest(request events.APIGatewayProxyRequest) (events.AP
 	}
 
 	// Make a twitter API call
-	tw := fetch.Tweets(h.client, username, dateSince, dateBefore)
+	tw, err := fetch.Tweets(h.client, username, dateSince, dateBefore)
+
+	// Handle Username not found/other Twitter API errors
+	if err != nil {
+		matched, _ := regexp.MatchString("34", err.Error())
+		if matched {
+			return events.APIGatewayProxyResponse{StatusCode: 404, Body: "Username not found"}, nil
+		}
+		return events.APIGatewayProxyResponse{StatusCode: 500, Body: "Could not fetch Tweets"}, nil
+	}
+
 	// Filter the tweets by filterString
 	filtered := filter.TweetsByKeyword(tw, filterString)
 	// Respond with the slice of tweets
