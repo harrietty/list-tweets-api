@@ -40,5 +40,3 @@ functions:
           method: get
           cors: true
           private: true
-resources:
-  - ${file(resources/api-gateway-errors.yml)}
