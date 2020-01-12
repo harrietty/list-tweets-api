@@ -67,11 +67,15 @@ func (h Handler) HandleRequest(request events.APIGatewayProxyRequest) (events.AP
 
 	// Handle Username not found/other Twitter API errors
 	if err != nil {
-		matched, _ := regexp.MatchString("34", err.Error())
-		if matched {
-			return events.APIGatewayProxyResponse{StatusCode: 404, Body: "{\"message\": \"Username not found\"}", Headers: getCorsHeaders()}, nil
+		matchedUserNotFound, _ := regexp.MatchString("34", err.Error())
+		if matchedUserNotFound {
+			return events.APIGatewayProxyResponse{StatusCode: 404, Body: fmt.Sprintf("Username %v not found", username), Headers: getCorsHeaders()}, nil
 		}
-		return events.APIGatewayProxyResponse{StatusCode: 500, Body: "{\"message\": \"Could not fetch Tweets\"}", Headers: getCorsHeaders()}, nil
+		matchedRateLimitExceeded, _ := regexp.MatchString("88", err.Error())
+		if matchedRateLimitExceeded {
+			return events.APIGatewayProxyResponse{StatusCode: 500, Body: "Oops, we exceeded the Twitter rate limit", Headers: getCorsHeaders()}, nil
+		}
+		return events.APIGatewayProxyResponse{StatusCode: 500, Body: "Could not fetch Tweets", Headers: getCorsHeaders()}, nil
 	}
 
 	// Filter the tweets by filterString
