@@ -7,7 +7,7 @@ provider:
   stage: dev
   apiKeys:
     - free:
-        - ${self:provider.stage}-harrietryderblog
+        - ${opt:stage}-harrietryderblog
   usagePlan:
     - free:
         quota:
