@@ -20,6 +20,9 @@ func Tweets(client *twitter.Client, username string, dateSince string, dateBefor
 	foundAll := false
 
 	// We can consider that all the tweets are found when the previous MaxID is the same as the current one
+	// But we will make a maximum of 50 requests to try to avoid rate limiting
+	requestsMade := 0
+
 	for !foundAll {
 		if finalID != 0 {
 			params.MaxID = finalID
@@ -28,8 +31,15 @@ func Tweets(client *twitter.Client, username string, dateSince string, dateBefor
 		if err != nil {
 			return nil, err
 		}
+
 		fmt.Printf("Found %v tweets. Still searching...\n", len(tw))
 		tw = append(tw, nextTweets...)
+		requestsMade++
+
+		// If we've made enough requests already...
+		if requestsMade >= 50 {
+			return tw, nil
+		}
 
 		// If the user has no tweets, no point in continuing
 		if len(tw) == 0 {
