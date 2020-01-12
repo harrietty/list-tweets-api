@@ -62,9 +62,9 @@ func (h Handler) HandleRequest(request events.APIGatewayProxyRequest) (events.AP
 	if err != nil {
 		matched, _ := regexp.MatchString("34", err.Error())
 		if matched {
-			return events.APIGatewayProxyResponse{StatusCode: 500, Body: "{\"message\": \"Username not found\"}"}, nil
+			return events.APIGatewayProxyResponse{StatusCode: 404, Body: "{\"message\": \"Username not found\"}"}, nil
 		}
-		return events.APIGatewayProxyResponse{StatusCode: 404, Body: "{\"message\": \"Could not fetch Tweets\"}"}, nil
+		return events.APIGatewayProxyResponse{StatusCode: 500, Body: "{\"message\": \"Could not fetch Tweets\"}"}, nil
 	}
 
 	// Filter the tweets by filterString
